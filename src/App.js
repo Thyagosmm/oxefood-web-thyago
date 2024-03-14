@@ -10,7 +10,7 @@ function App() {
 
    <div className="App">
     
-     <FormProduto/>
+     <FormEntregador/>
 
      <div style={{marginTop: '6%'}}>
        <Segment vertical color='grey' size='tiny' textAlign='center'>

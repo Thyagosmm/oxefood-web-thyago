@@ -1,9 +1,62 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import InputMask from 'react-input-mask';
-import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import { Button, Container, Divider, Form, FormRadio, Icon } from 'semantic-ui-react';
 
-export default function FormProduto() {
+const options = [
+    { key: 'pe', text: 'Pernambuco', value: 'Pernambuco' },
+    { key: 'rn', text: 'Rio Grande do Norte', value: 'Rio Grande do Norte' },
+    { key: 'pb', text: 'Paraíba', value: 'Paraíba' },
+  ];
 
+export default function FormEntregador() {
+
+    const [nome, setNome] = useState();
+    const [cpf, setCpf] = useState();
+    const [rg, setRg] = useState();
+    const [dataNascimento, setDataNascimento] = useState();
+    const [foneCelular, setFoneCelular] = useState();
+    const [foneFixo, setFoneFixo] = useState();
+    const [qtdEntregasRealizadas, setQtdEntregasRealizadas] = useState();
+    const [valorPorFrete, setValorPorFrete] = useState();
+    const [rua, setRua] = useState();
+    const [numero, setNumero] = useState();
+    const [bairro, setBairro] = useState();
+    const [cidade, setCidade] = useState();
+    const [cep, setCep] = useState();
+    const [uf, setUf] = useState();
+    const [complemento, setComplemento] = useState();
+    const [ativo, setAtivo] = useState();
+
+    function salvar() {
+        let entregadorRequest = {
+            nome: nome,
+            cpf: cpf,
+            rg: rg,
+            dataNascimento: dataNascimento,
+            foneCelular: foneCelular,
+            foneFixo: foneFixo,
+            qtdEntregasRealizadas: qtdEntregasRealizadas,
+            valorPorFrete: valorPorFrete,
+            rua: rua,
+            numero: numero,
+            bairro: bairro,
+            cidade: cidade,
+            cep: cep,
+            uf: uf,
+            complemento: complemento,
+            ativo: ativo
+        }
+    
+        axios.post("http://localhost:8081/api/entregador", entregadorRequest)
+        .then((response) => {
+            console.log('Entregador cadastrado com sucesso.')
+        })
+        .catch((error) => {
+            console.log('Erro ao incluir um entregador.')
+        })
+    }
+    
     return (
 
         <div>
@@ -20,26 +73,35 @@ export default function FormProduto() {
 
                         <Form>
 
-                            <Form.Group widths='equal'>
+                            <Form.Group>
 
                                 <Form.Input
                                     required
                                     fluid
                                     label='Nome'
-                                    maxLength="100">
+                                    maxLength="100"
+                                    width={10}
+                                    value={nome}
+                                    onChange={e => setNome(e.target.value)}>
                                 </Form.Input>
 
                                 <Form.Input
                                     required
                                     fluid
-                                    label='CPF'>
+                                    label='CPF'
+                                    width={5}>
                                     <InputMask
                                         mask="999.999.999-99"
+                                        value={cpf}
+                                        onChange={e => setCpf(e.target.value)}
                                     />
                                 </Form.Input>
                                 <Form.Input
                                     fluid
-                                    label='RG'>
+                                    label='RG'
+                                    value={rg}
+                                    width={5}
+                                    onChange={e => setRg(e.target.value)}>
                                 </Form.Input>
 
                             </Form.Group>
@@ -50,8 +112,10 @@ export default function FormProduto() {
                                     label='DT Nascimento'
                                     width={6}>
                                     <InputMask
-                                        mask="22/12/2222"
-                                        placeholder="Ex:20/03/1985"
+                                        mask="99/99/9999" 
+                                        placeholder="Ex: 20/03/1985"
+                                        value={dataNascimento}
+                                        onChange={e => setDataNascimento(e.target.value)}
                                     />
                                 </Form.Input>
                                 <Form.Input
@@ -61,21 +125,33 @@ export default function FormProduto() {
                                     width={6}>
                                     <InputMask
                                         mask="(99) 9999.9999"
+                                        value={foneCelular}
+                                        onChange={e => setFoneCelular(e.target.value)}
                                     />
                                 </Form.Input>
                                 <Form.Input
                                     fluid
-                                    label='Fone Fixo'>
+                                    label='Fone Fixo'
+                                    width={6}>
                                     <InputMask
+                                        mask="(99) 9999.9999"
+                                        value={foneFixo}
+                                        onChange={e => setFoneFixo(e.target.value)}
                                     />
                                 </Form.Input>
                                 <Form.Input
                                     fluid
-                                    label='QTD Entregas Realizadas'>
+                                    label='QTD Entregas Realizadas'
+                                    width={6}
+                                    value={qtdEntregasRealizadas}
+                                    onChange={e => setQtdEntregasRealizadas(e.target.value)}>
                                 </Form.Input>
                                 <Form.Input
                                     fluid
-                                    label='Valor Por Frete'>
+                                    label='Valor Por Frete'
+                                    width={6}
+                                    value={valorPorFrete}
+                                    onChange={e => setValorPorFrete(e.target.value)}>
                                 </Form.Input>
                             </Form.Group>
 
@@ -83,52 +159,76 @@ export default function FormProduto() {
                                 <Form.Input
                                     required
                                     fluid
-                                    label='Rua'>
+                                    label='Rua'
+                                    width={12}
+                                    value={rua}
+                                    onChange={e => setRua(e.target.value)}>
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
-                                    label='Número'>
+                                    label='Número'
+                                    width={5}
+                                    value={numero}
+                                    onChange={e => setNumero(e.target.value)}>
                                 </Form.Input>
                             </Form.Group>
 
                             <Form.Group>
                                 <Form.Input
                                     fluid
-                                    label='Bairro'>
+                                    label='Bairro'
+                                    width={9}
+                                    value={bairro}
+                                    onChange={e => setBairro(e.target.value)}>
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
-                                    label='Cidade'>
+                                    label='Cidade'
+                                    width={9}
+                                    value={cidade}
+                                    onChange={e => setCidade(e.target.value)}>
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
-                                    label='CEP'>
+                                    label='CEP'
+                                    width={3}
+                                    value={cep}
+                                    onChange={e => setCep(e.target.value)}>
                                 </Form.Input>
                             </Form.Group>
-
-                            <Form.Group>
-                                <Form.Input
-                                    fluid
-                                    label='UF'>
-                                </Form.Input>
-                            </Form.Group>
-
-                            <Form.Group>
-                                <Form.Input
+                            
+                                <Form.Select
                                     fluid
                                     label='UF'
-                                    placeholder ='Selecione'>
-                                </Form.Input>
-                            </Form.Group>
-
-                            <Form.Group>
+                                    width={50}
+                                    options={options}
+                                    placeholder="Selecione"
+                                    value={uf}
+                                    onChange={(e,{value})=>{
+                                        setUf(value)}}
+                                    />
                                 <Form.Input
                                     fluid
-                                    label='Complemento'>
+                                    label='Complemento'
+                                    value={complemento}
+                                    onChange={e => setComplemento(e.target.value)}>
                                 </Form.Input>
+
+                            <Form.Group>
+                                <label>Ativo</label>
+                                <FormRadio
+                                    label= 'Sim'
+                                    checked= {ativo}
+                                    onChange={e => setAtivo(true)}
+                                 />
+                                <FormRadio
+                                    label = 'Não'
+                                    checked ={!ativo}
+                                    onChange={e => setAtivo(false)}
+                                />
                             </Form.Group>
 
                         </Form>
@@ -154,6 +254,7 @@ export default function FormProduto() {
                                 labelPosition='left'
                                 color='blue'
                                 floated='right'
+                                onClick={() => salvar()}
                             >
                                 <Icon name='save' />
                                 Salvar

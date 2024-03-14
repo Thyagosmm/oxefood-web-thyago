@@ -1,9 +1,36 @@
-import React from "react";
+import axios from "axios";
+import React, {useState} from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 
 export default function FormProduto() {
 
+    const [titulo, setTitulo] = useState();
+    const [codigoDoProduto, setCodigoDoProduto] = useState();
+    const [descricao, setDescricao] = useState();
+    const [valorUnitario, setValorUnitario] = useState();
+    const [tempoDeEntregaMinimoEmMinutos, setTempoDeEntregaMinimoEmMinutos] = useState();
+    const [tempoDeEntregaMaximoEmMinutos, setTempoDeEntregaMaximoEmMinutos] = useState();
+
+    function salvar() {
+        let produtoRequest = {
+            titulo: titulo,
+            codigoDoProduto: codigoDoProduto,
+            descricao: descricao,
+            valorUnitario: valorUnitario,
+            tempoDeEntregaMinimoEmMinutos: tempoDeEntregaMinimoEmMinutos,
+            tempoDeEntregaMaximoEmMinutos: tempoDeEntregaMaximoEmMinutos
+        }
+    
+        axios.post("http://localhost:8081/api/produto", produtoRequest)
+        .then((response) => {
+            console.log('Produto cadastrado com sucesso.')
+        })
+        .catch((error) => {
+            console.log('Erro ao incluir um produto.')
+        })
+    }
+    
     return (
 
         <div>
@@ -28,8 +55,9 @@ export default function FormProduto() {
                                     label='Titulo'
                                     maxLength="100">
                                     <InputMask
-                                        mask="(99) 9999.9999"
                                         placeholder="Informe o título do produto"
+                                        value={titulo}
+                                        onChange={e => setTitulo(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -38,8 +66,9 @@ export default function FormProduto() {
                                     fluid
                                     label='Código do Produto'>
                                     <InputMask
-                                        mask="(99) 9999.9999"
                                         placeholder="Informe o código do produto"
+                                        value={codigoDoProduto}
+                                        onChange={e => setCodigoDoProduto(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -51,8 +80,9 @@ export default function FormProduto() {
                                     label='Descrição'
                                     width={6}>
                                     <InputMask
-                                        mask="(99) 9999.9999"
                                         placeholder="Informe a descrição do produto"
+                                        value={descricao}
+                                        onChange={e => setDescricao(e.target.value)}
                                     />
                                 </Form.Input>
                             </Form.Group>
@@ -64,7 +94,8 @@ export default function FormProduto() {
                                     label='Valor Unitário'
                                     width={6}>
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        value={valorUnitario}
+                                        onChange={e => setValorUnitario(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -74,9 +105,9 @@ export default function FormProduto() {
                                     width={6}
                                 >
                                     <InputMask
-                                        mask="99/99/9999"
-                                        maskChar={null}
                                         placeholder="30"
+                                        value={tempoDeEntregaMinimoEmMinutos}
+                                        onChange={e => setTempoDeEntregaMinimoEmMinutos(e.target.value)}
                                     />
                                 </Form.Input>
                                 <Form.Input
@@ -85,9 +116,9 @@ export default function FormProduto() {
                                     width={6}
                                 >
                                     <InputMask
-                                        mask="99/99/9999"
-                                        maskChar={null}
                                         placeholder="40"
+                                        value={tempoDeEntregaMaximoEmMinutos}
+                                        onChange={e => setTempoDeEntregaMaximoEmMinutos(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -116,6 +147,7 @@ export default function FormProduto() {
                                 labelPosition='left'
                                 color='blue'
                                 floated='right'
+                                onClick={() => salvar()}
                             >
                                 <Icon name='save' />
                                 Salvar
