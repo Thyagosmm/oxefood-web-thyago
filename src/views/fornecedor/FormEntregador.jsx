@@ -67,7 +67,7 @@ export default function FormEntregador() {
 
                     <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
 
-                    <Divider />
+          <Divider />
 
                     <div style={{ marginTop: '4%' }}>
 
@@ -233,19 +233,18 @@ export default function FormEntregador() {
 
                         </Form>
 
-                        <div style={{ marginTop: '4%' }}>
-
-                            <Button
-                                type="button"
-                                inverted
-                                circular
-                                icon
-                                labelPosition='left'
-                                color='orange'
-                            >
-                                <Icon name='reply' />
-                                Voltar
-                            </Button>
+            <div style={{ marginTop: "4%" }}>
+              <Button
+                type="button"
+                inverted
+                circular
+                icon
+                labelPosition="left"
+                color="orange"
+              >
+                <Icon name="reply" />
+                Voltar
+              </Button>
 
                             <Button
                                 inverted
