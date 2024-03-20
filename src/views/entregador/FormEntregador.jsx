@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, FormRadio, Icon } from 'semantic-ui-react';
+import MenuSistema from '../../MenuSistema';
 
 const options = [
     { key: 'pe', text: 'Pernambuco', value: 'Pernambuco' },
     { key: 'rn', text: 'Rio Grande do Norte', value: 'Rio Grande do Norte' },
     { key: 'pb', text: 'Paraíba', value: 'Paraíba' },
-  ];
+];
 
 export default function FormEntregador() {
 
@@ -47,19 +48,20 @@ export default function FormEntregador() {
             complemento: complemento,
             ativo: ativo
         }
-    
+
         axios.post("http://localhost:8081/api/entregador", entregadorRequest)
-        .then((response) => {
-            console.log('Entregador cadastrado com sucesso.')
-        })
-        .catch((error) => {
-            console.log('Erro ao incluir um entregador.')
-        })
+            .then((response) => {
+                console.log('Entregador cadastrado com sucesso.')
+            })
+            .catch((error) => {
+                console.log('Erro ao incluir um entregador.')
+            })
     }
-    
+
     return (
 
         <div>
+            <MenuSistema />
 
             <div style={{ marginTop: '3%' }}>
 
@@ -67,7 +69,7 @@ export default function FormEntregador() {
 
                     <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
 
-          <Divider />
+                    <Divider />
 
                     <div style={{ marginTop: '4%' }}>
 
@@ -112,7 +114,7 @@ export default function FormEntregador() {
                                     label='DT Nascimento'
                                     width={6}>
                                     <InputMask
-                                        mask="99/99/9999" 
+                                        mask="99/99/9999"
                                         placeholder="Ex: 20/03/1985"
                                         value={dataNascimento}
                                         onChange={e => setDataNascimento(e.target.value)}
@@ -199,52 +201,53 @@ export default function FormEntregador() {
                                     onChange={e => setCep(e.target.value)}>
                                 </Form.Input>
                             </Form.Group>
-                            
-                                <Form.Select
-                                    fluid
-                                    label='UF'
-                                    width={50}
-                                    options={options}
-                                    placeholder="Selecione"
-                                    value={uf}
-                                    onChange={(e,{value})=>{
-                                        setUf(value)}}
-                                    />
-                                <Form.Input
-                                    fluid
-                                    label='Complemento'
-                                    value={complemento}
-                                    onChange={e => setComplemento(e.target.value)}>
-                                </Form.Input>
+
+                            <Form.Select
+                                fluid
+                                label='UF'
+                                width={50}
+                                options={options}
+                                placeholder="Selecione"
+                                value={uf}
+                                onChange={(e, { value }) => {
+                                    setUf(value)
+                                }}
+                            />
+                            <Form.Input
+                                fluid
+                                label='Complemento'
+                                value={complemento}
+                                onChange={e => setComplemento(e.target.value)}>
+                            </Form.Input>
 
                             <Form.Group>
                                 <label>Ativo</label>
                                 <FormRadio
-                                    label= 'Sim'
-                                    checked= {ativo}
+                                    label='Sim'
+                                    checked={ativo}
                                     onChange={e => setAtivo(true)}
-                                 />
+                                />
                                 <FormRadio
-                                    label = 'Não'
-                                    checked ={!ativo}
+                                    label='Não'
+                                    checked={!ativo}
                                     onChange={e => setAtivo(false)}
                                 />
                             </Form.Group>
 
                         </Form>
 
-            <div style={{ marginTop: "4%" }}>
-              <Button
-                type="button"
-                inverted
-                circular
-                icon
-                labelPosition="left"
-                color="orange"
-              >
-                <Icon name="reply" />
-                Voltar
-              </Button>
+                        <div style={{ marginTop: "4%" }}>
+                            <Button
+                                type="button"
+                                inverted
+                                circular
+                                icon
+                                labelPosition="left"
+                                color="orange"
+                            >
+                                <Icon name="reply" />
+                                Voltar
+                            </Button>
 
                             <Button
                                 inverted

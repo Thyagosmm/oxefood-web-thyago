@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import MenuSistema from '../../MenuSistema';
 
 export default function FormProduto() {
 
@@ -21,19 +22,20 @@ export default function FormProduto() {
             tempoDeEntregaMinimoEmMinutos: tempoDeEntregaMinimoEmMinutos,
             tempoDeEntregaMaximoEmMinutos: tempoDeEntregaMaximoEmMinutos
         }
-    
+
         axios.post("http://localhost:8081/api/produto", produtoRequest)
-        .then((response) => {
-            console.log('Produto cadastrado com sucesso.')
-        })
-        .catch((error) => {
-            console.log('Erro ao incluir um produto.')
-        })
+            .then((response) => {
+                console.log('Produto cadastrado com sucesso.')
+            })
+            .catch((error) => {
+                console.log('Erro ao incluir um produto.')
+            })
     }
-    
+
     return (
 
         <div>
+            <MenuSistema />
 
             <div style={{ marginTop: '3%' }}>
 
@@ -41,7 +43,7 @@ export default function FormProduto() {
 
                     <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
 
-          <Divider />
+                    <Divider />
 
                     <div style={{ marginTop: '4%' }}>
 
