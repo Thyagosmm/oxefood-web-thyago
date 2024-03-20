@@ -7,7 +7,7 @@ export default function Home() {
     return (
         <div>
 
-            <MenuSistema />
+            <MenuSistema tela={'home'} />
 
             <div style={{ marginTop: '5%' }}>
                 <Container>

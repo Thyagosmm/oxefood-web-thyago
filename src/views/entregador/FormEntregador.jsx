@@ -61,7 +61,7 @@ export default function FormEntregador() {
     return (
 
         <div>
-            <MenuSistema />
+            <MenuSistema tela={'entregador'} />
 
             <div style={{ marginTop: '3%' }}>
 

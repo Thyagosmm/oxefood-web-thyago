@@ -35,7 +35,7 @@ export default function FormProduto() {
     return (
 
         <div>
-            <MenuSistema />
+            <MenuSistema tela={'produto'} />
 
             <div style={{ marginTop: '3%' }}>
 
