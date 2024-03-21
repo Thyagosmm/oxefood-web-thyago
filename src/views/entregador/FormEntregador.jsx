@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import InputMask from 'react-input-mask';
 import { Button, Container, Divider, Form, FormRadio, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
+import { Link } from "react-router-dom";
 
 const options = [
     { key: 'pe', text: 'Pernambuco', value: 'Pernambuco' },
@@ -246,7 +247,7 @@ export default function FormEntregador() {
                                 color="orange"
                             >
                                 <Icon name="reply" />
-                                Voltar
+                                <Link to={'/list-entregador'}>Voltar</Link>
                             </Button>
 
                             <Button
