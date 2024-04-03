@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from 'react-input-mask';
+import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, FormRadio, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
-import { Link } from "react-router-dom";
 
 const options = [
     { key: 'pe', text: 'Pernambuco', value: 'Pernambuco' },
@@ -13,6 +13,8 @@ const options = [
 
 export default function FormEntregador() {
 
+    const { state } = useLocation();
+    const [idEntregador, setIdEntregador] = useState();
     const [nome, setNome] = useState();
     const [cpf, setCpf] = useState();
     const [rg, setRg] = useState();
@@ -29,6 +31,41 @@ export default function FormEntregador() {
     const [uf, setUf] = useState();
     const [complemento, setComplemento] = useState();
     const [ativo, setAtivo] = useState();
+
+    useEffect(() => {
+        if (state != null && state.id != null) {
+            axios.get("http://localhost:8081/api/entregador/" + state.id)
+                .then((response) => {
+                    setIdEntregador(response.data.id)
+                    setNome(response.data.nome)
+                    setCpf(response.data.cpf)
+                    setRg(response.data.rg)
+                    setDataNascimento(formatarData(response.data.dataNascimento))
+                    setFoneCelular(response.data.foneCelular)
+                    setFoneFixo(response.data.foneFixo)
+                    setQtdEntregasRealizadas(response.data.qtdEntregasRealizadas)
+                    setValorPorFrete(response.data.valorPorFrete)
+                    setRua(response.data.rua)
+                    setNumero(response.data.numero)
+                    setBairro(response.data.bairro)
+                    setCidade(response.data.cidade)
+                    setCep(response.data.cep)
+                    setUf(response.data.uf)
+                    setComplemento(response.data.complemento)
+                    setAtivo(response.data.ativo)
+                })
+        }
+    }, [state]);
+
+    function formatarData(dataParam) {
+
+        if (dataParam === null || dataParam === '' || dataParam === undefined) {
+            return ''
+        }
+
+        let arrayData = dataParam.split('-');
+        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
+    }
 
     function salvar() {
         let entregadorRequest = {
@@ -49,14 +86,16 @@ export default function FormEntregador() {
             complemento: complemento,
             ativo: ativo
         }
+        if (idEntregador != null) { //Alteração:
+            axios.put("http://localhost:8081/api/entregador/" + idEntregador, entregadorRequest)
+                .then((response) => { console.log('Entregador alterado com sucesso.') })
+                .catch((error) => { console.log('Erro ao alterar um entregador.') })
+        } else { //Cadastro:
+            axios.post("http://localhost:8081/api/entregador", entregadorRequest)
+                .then((response) => { console.log('Entregador cadastrado com sucesso.') })
+                .catch((error) => { console.log('Erro ao incluir o entregador.') })
+        }
 
-        axios.post("http://localhost:8081/api/entregador", entregadorRequest)
-            .then((response) => {
-                console.log('Entregador cadastrado com sucesso.')
-            })
-            .catch((error) => {
-                console.log('Erro ao incluir um entregador.')
-            })
     }
 
     return (
