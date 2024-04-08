@@ -107,7 +107,12 @@ export default function FormEntregador() {
 
                 <Container textAlign='justified' >
 
-                    <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+                    { idEntregador === undefined &&
+                        <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+                    }
+                    { idEntregador != undefined &&
+                        <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+                    }
 
                     <Divider />
 
@@ -166,7 +171,7 @@ export default function FormEntregador() {
                                     label='Fone Celular'
                                     width={6}>
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        mask="(99) 99999-9999"
                                         value={foneCelular}
                                         onChange={e => setFoneCelular(e.target.value)}
                                     />
@@ -176,7 +181,7 @@ export default function FormEntregador() {
                                     label='Fone Fixo'
                                     width={6}>
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        mask="(99) 99999-9999"
                                         value={foneFixo}
                                         onChange={e => setFoneFixo(e.target.value)}
                                     />
@@ -236,9 +241,11 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     label='CEP'
-                                    width={3}
-                                    value={cep}
-                                    onChange={e => setCep(e.target.value)}>
+                                    width={3}>
+                                    <InputMask
+                                        mask="99999-999"
+                                        value={cep}
+                                        onChange={e => setCep(e.target.value)}/>
                                 </Form.Input>
                             </Form.Group>
 
