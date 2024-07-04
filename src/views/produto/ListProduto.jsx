@@ -31,7 +31,7 @@ export default function ListProduto() {
         await axios.delete('http://localhost:8081/api/produto/' + idRemover)
         .then((response) => {
   
-            console.log('Cliente removido com sucesso.')
+            console.log('Produto removido com sucesso.')
   
             axios.get("http://localhost:8081/api/produto")
             .then((response) => {
