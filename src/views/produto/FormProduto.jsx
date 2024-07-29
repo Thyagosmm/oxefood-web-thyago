@@ -8,15 +8,14 @@ import MenuSistema from '../../MenuSistema';
 export default function FormProduto() {
     const { state } = useLocation();
     const [idProduto, setIdProduto] = useState();
-    const [titulo, setTitulo] = useState();
-    const [codigoDoProduto, setCodigoDoProduto] = useState();
-    const [descricao, setDescricao] = useState();
-    const [valorUnitario, setValorUnitario] = useState();
-    const [tempoDeEntregaMinimoEmMinutos, setTempoDeEntregaMinimoEmMinutos] = useState();
-    const [tempoDeEntregaMaximoEmMinutos, setTempoDeEntregaMaximoEmMinutos] = useState();
+    const [titulo, setTitulo] = useState('');
+    const [codigoDoProduto, setCodigoDoProduto] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [valorUnitario, setValorUnitario] = useState('');
+    const [tempoDeEntregaMinimoEmMinutos, setTempoDeEntregaMinimoEmMinutos] = useState('');
+    const [tempoDeEntregaMaximoEmMinutos, setTempoDeEntregaMaximoEmMinutos] = useState('');
     const [listaCategoria, setListaCategoria] = useState([]);
-    const [idCategoria, setIdCategoria] = useState();
-
+    const [idCategoria, setIdCategoria] = useState('');
 
     useEffect(() => {
         if (state != null && state.id != null) {
@@ -30,17 +29,24 @@ export default function FormProduto() {
                     setTempoDeEntregaMinimoEmMinutos(response.data.tempoDeEntregaMinimoEmMinutos);
                     setTempoDeEntregaMaximoEmMinutos(response.data.tempoDeEntregaMaximoEmMinutos);
                     setIdCategoria(response.data.categoria.id);
-                });
+                })
+                .catch((error) => console.error('Erro ao buscar o produto:', error));
         }
-        axios.get("http://localhost:8081/api/categoriaproduto/")
+
+        axios.get("http://localhost:8081/api/categoriaproduto")
             .then((response) => {
-                const dropDownCategorias = response.data.map(c => ({ text: c.descricaoCategoria, value: c.id }));
+                const dropDownCategorias = response.data.map(c => ({
+                    key: c.id,
+                    text: c.descricaoCategoria,
+                    value: c.id
+                }));
                 setListaCategoria(dropDownCategorias);
-            });
+            })
+            .catch((error) => console.error('Erro ao buscar categorias:', error));
     }, [state]);
 
     function salvar() {
-        let produtoRequest = {
+        const produtoRequest = {
             idCategoria: idCategoria,
             titulo: titulo,
             codigoDoProduto: codigoDoProduto,
@@ -48,47 +54,41 @@ export default function FormProduto() {
             valorUnitario: valorUnitario,
             tempoDeEntregaMinimoEmMinutos: tempoDeEntregaMinimoEmMinutos,
             tempoDeEntregaMaximoEmMinutos: tempoDeEntregaMaximoEmMinutos
-        }
+        };
 
-        if (idProduto != null) { //Alteração:
-            axios.put("http://localhost:8081/api/produto/" + idProduto, produtoRequest)
-                .then((response) => { console.log('Produto alterado com sucesso.') })
-                .catch((error) => { console.log('Erro ao alterar um produto.') })
-        } else { //Cadastro:
-            axios.post("http://localhost:8081/api/produto", produtoRequest)
-                .then((response) => { console.log('Produto cadastrado com sucesso.') })
-                .catch((error) => { console.log('Erro ao incluir o produto.') })
-        }
+        const url = idProduto != null
+            ? `http://localhost:8081/api/produto/${idProduto}`
+            : "http://localhost:8081/api/produto";
+
+        const method = idProduto != null ? axios.put : axios.post;
+
+        method(url, produtoRequest)
+            .then(() => {
+                console.log('Produto salvo com sucesso.');
+            })
+            .catch((error) => {
+                console.error('Erro ao salvar o produto:', error);
+            });
     }
 
-
     return (
-
         <div>
             <MenuSistema tela={'produto'} />
-
             <div style={{ marginTop: '3%' }}>
-
-                <Container textAlign='justified' >
-
-                    {idProduto === undefined &&
-                        <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
-                    }
-                    {idProduto !== undefined &&
-                        <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
-                    }
+                <Container textAlign='justified'>
+                    <h2>
+                        <span style={{ color: 'darkgray' }}>
+                            Produto &nbsp;<Icon name='angle double right' size="small" />
+                        </span> {idProduto === undefined ? 'Cadastro' : 'Alteração'}
+                    </h2>
                     <Divider />
-
                     <div style={{ marginTop: '4%' }}>
-
                         <Form>
-
                             <Form.Group widths='equal'>
-
                                 <Form.Input
                                     required
                                     fluid
-                                    label='Titulo'
+                                    label='Título'
                                     maxLength="100">
                                     <InputMask
                                         placeholder="Informe o título do produto"
@@ -117,7 +117,7 @@ export default function FormProduto() {
                                     options={listaCategoria}
                                     value={idCategoria}
                                     onChange={(e, { value }) => {
-                                        setIdCategoria(value)
+                                        setIdCategoria(value);
                                     }}
                                 />
                             </Form.Group>
@@ -142,6 +142,7 @@ export default function FormProduto() {
                                     label='Valor Unitário'
                                     width={6}>
                                     <InputMask
+                                        placeholder="Informe o valor unitário"
                                         value={valorUnitario}
                                         onChange={e => setValorUnitario(e.target.value)}
                                     />
@@ -149,41 +150,36 @@ export default function FormProduto() {
 
                                 <Form.Input
                                     fluid
-                                    label='Tempo de Enrega Mínimo em Minutos'
-                                    width={6}
-                                >
+                                    label='Tempo de Entrega Mínimo em Minutos'
+                                    width={6}>
                                     <InputMask
                                         placeholder="30"
                                         value={tempoDeEntregaMinimoEmMinutos}
                                         onChange={e => setTempoDeEntregaMinimoEmMinutos(e.target.value)}
                                     />
                                 </Form.Input>
+
                                 <Form.Input
                                     fluid
                                     label='Tempo de Entrega Máxima em Minutos'
-                                    width={6}
-                                >
+                                    width={6}>
                                     <InputMask
                                         placeholder="40"
                                         value={tempoDeEntregaMaximoEmMinutos}
                                         onChange={e => setTempoDeEntregaMaximoEmMinutos(e.target.value)}
                                     />
                                 </Form.Input>
-
                             </Form.Group>
-
                         </Form>
 
                         <div style={{ marginTop: '4%' }}>
-
                             <Button
                                 type="button"
                                 inverted
                                 circular
                                 icon
                                 labelPosition='left'
-                                color='orange'
-                            >
+                                color='orange'>
                                 <Icon name='reply' />
                                 <Link to={'/list-produto'}>Voltar</Link>
                             </Button>
@@ -195,20 +191,14 @@ export default function FormProduto() {
                                 labelPosition='left'
                                 color='blue'
                                 floated='right'
-                                onClick={() => salvar()}
-                            >
+                                onClick={salvar}>
                                 <Icon name='save' />
                                 Salvar
                             </Button>
-
                         </div>
-
                     </div>
-
                 </Container>
             </div>
         </div>
-
     );
-
 }
