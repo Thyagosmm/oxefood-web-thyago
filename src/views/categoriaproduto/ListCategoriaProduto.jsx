@@ -21,15 +21,7 @@ export default function ListCategoriaProduto() {
                 setLista(response.data)
             })
     }
-    function formatarData(dataParam) {
 
-        if (dataParam === null || dataParam === '' || dataParam === undefined) {
-            return ''
-        }
-
-        let arrayData = dataParam.split('-');
-        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
-    }
     function confirmaRemover(id) {
         setOpenModal(true)
         setIdRemover(id)
@@ -88,7 +80,7 @@ export default function ListCategoriaProduto() {
                                 {lista.map(categoriaProduto => (
 
                                     <Table.Row key={categoriaProduto.id}>
-                                        <Table.Cell>{categoriaProduto.descricao}</Table.Cell>
+                                        <Table.Cell>{categoriaProduto.descricaoCategoria}</Table.Cell>
                                         <Table.Cell textAlign='center'>
 
                                             <Button

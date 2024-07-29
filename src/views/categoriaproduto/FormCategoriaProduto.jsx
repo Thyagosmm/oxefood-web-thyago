@@ -8,7 +8,7 @@ export default function FormCategoriaProduto() {
 
     const { state } = useLocation();
     const [idCategoriaProduto, setIdCategoriaProduto] = useState();
-    const [descricao, setDescricao] = useState();
+    const [descricaoCategoria, setDescricaoCategoria] = useState();
 
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export default function FormCategoriaProduto() {
             axios.get("http://localhost:8081/api/categoriaproduto/" + state.id)
                 .then((response) => {
                     setIdCategoriaProduto(response.data.id)
-                    setDescricao(response.data.descricao)
+                    setDescricaoCategoria(response.data.descricaoCategoria)
                 })
         }
     }, [state])
@@ -24,7 +24,7 @@ export default function FormCategoriaProduto() {
     function salvar() {
 
         let categoriaProdutoRequest = {
-            descricao: descricao,
+            descricaoCategoria: descricaoCategoria,
         }
 
         if (idCategoriaProduto != null) { //Alteração:
@@ -52,7 +52,7 @@ export default function FormCategoriaProduto() {
                     {idCategoriaProduto === undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Categoria de Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
                     }
-                    {idCategoriaProduto != undefined &&
+                    {idCategoriaProduto !== undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Categoria de Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
                     }
 
@@ -69,8 +69,8 @@ export default function FormCategoriaProduto() {
                                     fluid
                                     label='Descrição'
                                     maxLength="100"
-                                    value={descricao}
-                                    onChange={e => setDescricao(e.target.value)}
+                                    value={descricaoCategoria}
+                                    onChange={e => setDescricaoCategoria(e.target.value)}
                                 />
 
                             </Form.Group>
