@@ -107,8 +107,8 @@ export default function FormProduto() {
                                         onChange={e => setCodigoDoProduto(e.target.value)}
                                     />
                                 </Form.Input>
-
-                                <Form.Select
+                            </Form.Group>
+                            <Form.Select
                                     required
                                     fluid
                                     tabIndex='3'
@@ -120,13 +120,11 @@ export default function FormProduto() {
                                         setIdCategoria(value);
                                     }}
                                 />
-                            </Form.Group>
-
                             <Form.Group>
                                 <Form.Input
                                     fluid
                                     label='Descrição'
-                                    width={6}>
+                                    width={16}>
                                     <InputMask
                                         placeholder="Informe a descrição do produto"
                                         value={descricao}
