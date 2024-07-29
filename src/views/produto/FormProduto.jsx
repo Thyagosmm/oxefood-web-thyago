@@ -29,15 +29,14 @@ export default function FormProduto() {
                     setValorUnitario(response.data.valorUnitario);
                     setTempoDeEntregaMinimoEmMinutos(response.data.tempoDeEntregaMinimoEmMinutos);
                     setTempoDeEntregaMaximoEmMinutos(response.data.tempoDeEntregaMaximoEmMinutos);
-                    setIdCategoria(response.data.categoria.id)
-                })
+                    setIdCategoria(response.data.categoria.id);
+                });
         }
         axios.get("http://localhost:8081/api/categoriaproduto/")
-       .then((response) => {
-           const dropDownCategorias = response.data.map(c => ({ text: c.descricao, value: c.id }));
-           setListaCategoria(dropDownCategorias);
-       })
-
+            .then((response) => {
+                const dropDownCategorias = response.data.map(c => ({ text: c.descricaoCategoria, value: c.id }));
+                setListaCategoria(dropDownCategorias);
+            });
     }, [state]);
 
     function salvar() {

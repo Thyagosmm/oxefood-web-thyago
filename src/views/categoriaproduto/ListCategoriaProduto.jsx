@@ -78,8 +78,8 @@ export default function ListCategoriaProduto() {
 
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell>Descrição</Table.HeaderCell>
-                                    <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
+                                    <Table.HeaderCell style={{ width: '80%' }}>Descrição</Table.HeaderCell>
+                                    <Table.HeaderCell style={{ width: '20%', textAlign: 'center' }}>Ações</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
 
