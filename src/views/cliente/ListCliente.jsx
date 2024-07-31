@@ -15,53 +15,44 @@ export default function ListCliente() {
     }, [])
 
     function carregarLista() {
-
         axios.get("http://localhost:8081/api/cliente")
             .then((response) => {
-                setLista(response.data)
-            })
+                setLista(response.data);
+            });
     }
+
     function formatarData(dataParam) {
-
         if (dataParam === null || dataParam === '' || dataParam === undefined) {
-            return ''
+            return '';
         }
-
         let arrayData = dataParam.split('-');
         return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
     }
+
     function confirmaRemover(id) {
-        setOpenModal(true)
-        setIdRemover(id)
+        setOpenModal(true);
+        setIdRemover(id);
     }
+
     async function remover() {
-
         await axios.delete('http://localhost:8081/api/cliente/' + idRemover)
-            .then((response) => {
-
-                console.log('Cliente removido com sucesso.')
-
-                axios.get("http://localhost:8081/api/cliente")
-                    .then((response) => {
-                        setLista(response.data)
-                    })
+            .then(() => {
+                console.log('Cliente removido com sucesso.');
+                carregarLista(); // Atualiza a lista após remoção
             })
-            .catch((error) => {
-                console.log('Erro ao remover um cliente.')
-            })
-        setOpenModal(false)
+            .catch(() => {
+                console.log('Erro ao remover um cliente.');
+            });
+        setOpenModal(false);
     }
 
     return (
         <div>
             <MenuSistema tela={'cliente'} />
             <div style={{ marginTop: '3%' }}>
-
-                <Container textAlign='justified' >
-
+                <Container textAlign='justified'>
                     <h2> Cliente </h2>
                     <Divider />
-
                     <div style={{ marginTop: '4%' }}>
                         <Button
                             label='Novo'
@@ -73,9 +64,7 @@ export default function ListCliente() {
                             to='/form-cliente'
                         />
                         <br /><br /><br />
-
                         <Table color='orange' sortable celled>
-
                             <Table.Header>
                                 <Table.Row>
                                     <Table.HeaderCell>Nome</Table.HeaderCell>
@@ -83,29 +72,29 @@ export default function ListCliente() {
                                     <Table.HeaderCell>Data de Nascimento</Table.HeaderCell>
                                     <Table.HeaderCell>Fone Celular</Table.HeaderCell>
                                     <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
+                                    <Table.HeaderCell >Endereços</Table.HeaderCell>
                                     <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
-
                             <Table.Body>
-
                                 {lista.map(cliente => (
-
                                     <Table.Row key={cliente.id}>
                                         <Table.Cell>{cliente.nome}</Table.Cell>
                                         <Table.Cell>{cliente.cpf}</Table.Cell>
                                         <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
                                         <Table.Cell>{cliente.foneCelular}</Table.Cell>
                                         <Table.Cell>{cliente.foneFixo}</Table.Cell>
+                                        <Table.Cell>{cliente.enderecos ? cliente.enderecos.length : 0}</Table.Cell>
                                         <Table.Cell textAlign='center'>
-
                                             <Button
                                                 inverted
                                                 circular
                                                 color='green'
                                                 title='Clique aqui para editar os dados deste cliente'
                                                 icon>
-                                                <Link to="/form-cliente" state={{ id: cliente.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
+                                                <Link to="/form-cliente" state={{ id: cliente.id }} style={{ color: 'green' }}>
+                                                    <Icon name='edit' />
+                                                </Link>
                                             </Button> &nbsp;
                                             <Button
                                                 inverted
@@ -113,14 +102,12 @@ export default function ListCliente() {
                                                 color='red'
                                                 title='Clique aqui para remover este cliente'
                                                 icon
-                                                onClick={e => confirmaRemover(cliente.id)}>
+                                                onClick={() => confirmaRemover(cliente.id)}>
                                                 <Icon name='trash' />
                                             </Button>
-
                                         </Table.Cell>
                                     </Table.Row>
                                 ))}
-
                             </Table.Body>
                         </Table>
                     </div>
@@ -140,11 +127,11 @@ export default function ListCliente() {
                     <Button basic color='red' inverted onClick={() => setOpenModal(false)}>
                         <Icon name='remove' /> Não
                     </Button>
-                    <Button color='green' inverted onClick={() => remover()}>
+                    <Button color='green' inverted onClick={remover}>
                         <Icon name='checkmark' /> Sim
                     </Button>
                 </Modal.Actions>
             </Modal>
         </div>
-    )
+    );
 }
