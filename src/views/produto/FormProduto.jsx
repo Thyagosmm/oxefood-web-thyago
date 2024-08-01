@@ -9,7 +9,7 @@ export default function FormProduto() {
     const { state } = useLocation();
     const [idProduto, setIdProduto] = useState();
     const [titulo, setTitulo] = useState('');
-    const [codigoDoProduto, setCodigoDoProduto] = useState('');
+    const [codigo, setCodigo] = useState('');
     const [descricao, setDescricao] = useState('');
     const [valorUnitario, setValorUnitario] = useState('');
     const [tempoDeEntregaMinimoEmMinutos, setTempoDeEntregaMinimoEmMinutos] = useState('');
@@ -23,7 +23,7 @@ export default function FormProduto() {
                 .then((response) => {
                     setIdProduto(response.data.id);
                     setTitulo(response.data.titulo);
-                    setCodigoDoProduto(response.data.codigoDoProduto);
+                    setCodigo(response.data.codigo);
                     setDescricao(response.data.descricao);
                     setValorUnitario(response.data.valorUnitario);
                     setTempoDeEntregaMinimoEmMinutos(response.data.tempoDeEntregaMinimoEmMinutos);
@@ -49,7 +49,7 @@ export default function FormProduto() {
         const produtoRequest = {
             idCategoria: idCategoria,
             titulo: titulo,
-            codigoDoProduto: codigoDoProduto,
+            codigo: codigo,
             descricao: descricao,
             valorUnitario: valorUnitario,
             tempoDeEntregaMinimoEmMinutos: tempoDeEntregaMinimoEmMinutos,
@@ -103,8 +103,8 @@ export default function FormProduto() {
                                     label='Código do Produto'>
                                     <InputMask
                                         placeholder="Informe o código do produto"
-                                        value={codigoDoProduto}
-                                        onChange={e => setCodigoDoProduto(e.target.value)}
+                                        value={codigo}
+                                        onChange={e => setCodigo(e.target.value)}
                                     />
                                 </Form.Input>
                             </Form.Group>
