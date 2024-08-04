@@ -74,7 +74,7 @@ export default function FormCliente() {
                     {idCliente === undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
                     }
-                    {idCliente != undefined &&
+                    {idCliente !== undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
                     }
 
@@ -114,7 +114,7 @@ export default function FormCliente() {
                                     label='Fone Celular'
                                     width={6}>
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        mask="(99)99999.9999"
                                         value={foneCelular}
                                         onChange={e => setFoneCelular(e.target.value)}
                                     />
@@ -125,7 +125,7 @@ export default function FormCliente() {
                                     label='Fone Fixo'
                                     width={6}>
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        mask="(99)99999.9999"
                                         value={foneFixo}
                                         onChange={e => setFoneFixo(e.target.value)}
                                     />
