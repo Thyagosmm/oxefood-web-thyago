@@ -4,6 +4,8 @@ import InputMask from 'react-input-mask';
 import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
+import {mensagemErro, notifyError, notifySuccess } from '../util/util';
+
 
 export default function FormProduto() {
     const { state } = useLocation();
@@ -55,22 +57,26 @@ export default function FormProduto() {
             tempoDeEntregaMinimoEmMinutos: tempoDeEntregaMinimoEmMinutos,
             tempoDeEntregaMaximoEmMinutos: tempoDeEntregaMaximoEmMinutos
         };
-
+    
         const url = idProduto != null
             ? `http://localhost:8081/api/produto/${idProduto}`
             : "http://localhost:8081/api/produto";
-
+    
         const method = idProduto != null ? axios.put : axios.post;
-
+    
         method(url, produtoRequest)
             .then(() => {
-                console.log('Produto salvo com sucesso.');
+                notifySuccess('Produto salvo com sucesso.');
             })
             .catch((error) => {
-                console.error('Erro ao salvar o produto:', error);
+                if (error.response) {
+                    notifyError(error.response.data.message);
+                } else {
+                    notifyError(mensagemErro);
+                }
             });
     }
-
+    
     return (
         <div>
             <MenuSistema tela={'produto'} />

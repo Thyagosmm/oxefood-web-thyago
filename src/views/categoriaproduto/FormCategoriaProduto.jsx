@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
+import { mensagemErro, notifyError, notifySuccess } from '../util/util';
+
 
 export default function FormCategoriaProduto() {
 
@@ -22,19 +24,30 @@ export default function FormCategoriaProduto() {
     }, [state])
 
     function salvar() {
-
         let categoriaProdutoRequest = {
             descricaoCategoria: descricaoCategoria,
-        }
+        };
 
-        if (idCategoriaProduto != null) { //Alteração:
+        if (idCategoriaProduto != null) { // Alteração:
             axios.put("http://localhost:8081/api/categoriaproduto/" + idCategoriaProduto, categoriaProdutoRequest)
-                .then((response) => { console.log('Categoria de produto alterado com sucesso.') })
-                .catch((error) => { console.log('Erro ao alterar uma categoria de produto.') })
-        } else { //Cadastro:
+                .then((response) => {
+                    console.log('Categoria de produto alterada com sucesso.');
+                })
+                .catch((error) => {
+                    console.log('Erro ao alterar uma categoria de produto.');
+                });
+        } else { // Cadastro:
             axios.post("http://localhost:8081/api/categoriaproduto", categoriaProdutoRequest)
-                .then((response) => { console.log('Categoria de produto cadastrado com sucesso.') })
-                .catch((error) => { console.log('Erro ao incluir a categoria de produto.') })
+                .then((response) => {
+                    notifySuccess('Categoria de produto cadastrada com sucesso.');
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        notifyError(error.response.data.message);
+                    } else {
+                        notifyError(mensagemErro);
+                    }
+                });
         }
     }
 

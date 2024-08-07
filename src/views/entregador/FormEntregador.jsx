@@ -4,6 +4,7 @@ import InputMask from 'react-input-mask';
 import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, FormRadio, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
+import { mensagemErro, notifyError, notifySuccess } from '../util/util';
 
 const options = [
     { key: 'pe', text: 'Pernambuco', value: 'Pernambuco' },
@@ -85,18 +86,31 @@ export default function FormEntregador() {
             uf: uf,
             complemento: complemento,
             ativo: ativo
-        }
-        if (idEntregador != null) { //Alteração:
-            axios.put("http://localhost:8081/api/entregador/" + idEntregador, entregadorRequest)
-                .then((response) => { console.log('Entregador alterado com sucesso.') })
-                .catch((error) => { console.log('Erro ao alterar um entregador.') })
-        } else { //Cadastro:
-            axios.post("http://localhost:8081/api/entregador", entregadorRequest)
-                .then((response) => { console.log('Entregador cadastrado com sucesso.') })
-                .catch((error) => { console.log('Erro ao incluir o entregador.') })
-        }
+        };
 
+        if (idEntregador != null) { // Alteração:
+            axios.put("http://localhost:8081/api/entregador/" + idEntregador, entregadorRequest)
+                .then((response) => {
+                    console.log('Entregador alterado com sucesso.');
+                })
+                .catch((error) => {
+                    console.log('Erro ao alterar um entregador.');
+                });
+        } else { // Cadastro:
+            axios.post("http://localhost:8081/api/entregador", entregadorRequest)
+                .then((response) => {
+                    notifySuccess('Entregador cadastrado com sucesso.');
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        notifyError(error.response.data.message);
+                    } else {
+                        notifyError(mensagemErro);
+                    }
+                });
+        }
     }
+
 
     return (
 
@@ -107,11 +121,11 @@ export default function FormEntregador() {
 
                 <Container textAlign='justified' >
 
-                    { idEntregador === undefined &&
-                        <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+                    {idEntregador === undefined &&
+                        <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
                     }
-                    { idEntregador !== undefined &&
-                        <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+                    {idEntregador !== undefined &&
+                        <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
                     }
 
                     <Divider />
@@ -245,7 +259,7 @@ export default function FormEntregador() {
                                     <InputMask
                                         mask="99999-999"
                                         value={cep}
-                                        onChange={e => setCep(e.target.value)}/>
+                                        onChange={e => setCep(e.target.value)} />
                                 </Form.Input>
                             </Form.Group>
 
