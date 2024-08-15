@@ -10,22 +10,23 @@ import FormProduto from './views/produto/FormProduto';
 import ListProduto from './views/produto/ListProduto';
 import ListCategoriaProduto from './views/categoriaproduto/ListCategoriaProduto';
 import FormCategoriaProduto from './views/categoriaproduto/FormCategoriaProduto';
-
-
+import FormLogin from './views/login/FormLogin';
+import { ProtectedRoute } from './views/util/ProtectedRoute';
 
 function Rotas() {
     return (
         <>
             <Routes>
-                <Route path="list-produto" element={<ListProduto />} />
-                <Route path="list-entregador" element={<ListEntregador />} />
-                <Route path="list-cliente" element={<ListCliente />} />
-                <Route path="list-categoriaproduto" element={<ListCategoriaProduto />} />
-                <Route path="/" element={<Home />} />
-                <Route path="form-cliente" element={<FormCliente />} />
-                <Route path="form-produto" element={<FormProduto />} />
-                <Route path="form-entregador" element={<FormEntregador />} />
-                <Route path="form-categoriaproduto" element={<FormCategoriaProduto />} />
+                <Route path="/" element={<FormLogin />} />
+                <Route path="list-produto" element={<ProtectedRoute><ListProduto /></ProtectedRoute>} />
+                <Route path="list-entregador" element={<ProtectedRoute><ListEntregador /></ProtectedRoute>} />
+                <Route path="list-cliente" element={<ProtectedRoute><ListCliente /></ProtectedRoute>} />
+                <Route path="list-categoriaproduto" element={<ProtectedRoute><ListCategoriaProduto /></ProtectedRoute>} />
+                <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+                <Route path="form-cliente" element={<ProtectedRoute><FormCliente /></ProtectedRoute>} />
+                <Route path="form-produto" element={<ProtectedRoute><FormProduto /></ProtectedRoute>} />
+                <Route path="form-entregador" element={<ProtectedRoute><FormEntregador /></ProtectedRoute>} />
+                <Route path="form-categoriaproduto" element={<ProtectedRoute><FormCategoriaProduto /></ProtectedRoute>} />
             </Routes>
         </>
     )
