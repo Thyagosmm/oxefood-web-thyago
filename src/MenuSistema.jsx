@@ -43,6 +43,12 @@ export default function MenuSistema(props) {
                     to='/list-categoriaproduto'
                 />
                 <Menu.Item
+                    name='empresa'
+                    active={props.tela === 'empresa'}
+                    as={Link}
+                    to='/list-empresa'
+                />
+                <Menu.Item
                     className='navbar__item--mobile'
                     onClick={logout}
                     content='Sair'
